@@ -1,9 +1,11 @@
-import React from "react";
-import { render } from "@testing-library/react";
-import App from "./App";
+import { ntVerseCounts, otVerseCounts } from "./data/verses";
+import { ntChapterCounts, otChapterCounts } from "./data/chapters";
 
-test("renders learn react link", () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/TS React minimal/i);
-  expect(linkElement).toBeInTheDocument();
+test("chapter counts are correct", () => {
+  ntChapterCounts.forEach((chapterCount, index) =>
+    expect(chapterCount).toBe(ntVerseCounts[index].length)
+  );
+  otChapterCounts.forEach((chapterCount, index) => {
+    expect(chapterCount).toBe(otVerseCounts[index].length);
+  });
 });
