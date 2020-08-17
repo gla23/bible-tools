@@ -1,0 +1,12 @@
+.bookText,
+.bookEndText {
+  color: rgb(134, 146, 186);
+}
+.chapterText,
+.chapterEndText {
+  color: rgb(168, 182, 225);
+}
+.verseText,
+.verseEndText {
+  color: rgb(207, 218, 255);
+}

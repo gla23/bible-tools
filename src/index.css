@@ -14,6 +14,15 @@ code {
     monospace;
 }
 
+input {
+  color: antiquewhite;
+  background-color: #2e3648;
+  border: thin;
+}
+input:focus {
+  outline: grey;
+}
+
 .App {
   padding: 30px;
 }
