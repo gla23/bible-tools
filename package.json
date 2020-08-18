@@ -1,6 +1,6 @@
 {
   "name": "bible-tools",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "files": [
     "lib/**/*"
   ],
@@ -17,6 +17,7 @@
   "license": "MIT",
   "author": "George Andersen",
   "homepage": "http://gla23.github.io/bible-tools",
+  "repository": "github:gla23/bible-tools",
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -34,10 +35,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "yarn build && gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build-lib": "cd lib;tsc",
-    "deploy": "yarn build && gh-pages -d build"
+    "build-lib": "cd lib;tsc"
   },
   "eslintConfig": {
     "extends": "react-app"

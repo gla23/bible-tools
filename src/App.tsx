@@ -3,11 +3,12 @@ import { parse } from "./parsing/parse";
 import { ParsedPassage } from "./components/ParsedPassage";
 
 function App() {
+  document.title = "bible-tools";
   const [input, setInput] = useState("festival");
   const state = parse(input);
   return (
     <div className="App">
-      Bible-tools
+      bible-tools
       <br />
       <br />
       Input:{" "}
@@ -27,7 +28,7 @@ function App() {
       {state.error?.toString()}
       <br />
       <br />
-      <pre>{JSON.stringify(state, null, 2)}</pre>
+      {false && <pre>{JSON.stringify(state, null, 2)}</pre>}
     </div>
   );
 }
