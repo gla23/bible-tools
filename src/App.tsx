@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { parse } from "./parsing/parse";
-import { ParsedPassage } from "./components/ParsedPassage";
+import { parse } from "./exports";
+import { PassageTokens } from "./components/PassageTokens";
 
 function App() {
   document.title = "bible-tools";
   const [input, setInput] = useState("festival");
-  const state = parse(input);
+  const passage = parse(input);
   return (
     <div className="App">
       bible-tools
@@ -15,20 +15,17 @@ function App() {
       <input
         type="text"
         value={input}
-        onKeyPress={(e) => e.key === "Enter" && setInput(state.reference)}
+        onKeyPress={(e) => e.key === "Enter" && setInput(passage.reference)}
         onChange={(e) => setInput(e.target.value)}
       />
       <br />
       <br />
-      <ParsedPassage input={input} state={state} />
+      <PassageTokens passage={passage} />
       <br />
-      {state.reference}
-      <br />
-      <br />
-      {state.error?.toString()}
+      {passage.reference}
       <br />
       <br />
-      {false && <pre>{JSON.stringify(state, null, 2)}</pre>}
+      {passage.error?.toString()}
     </div>
   );
 }

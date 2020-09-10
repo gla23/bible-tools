@@ -98,7 +98,7 @@ const parseInput = (state: State, input: string): Input => {
   );
 };
 
-export const parse = (string: string): State => {
+export const stateFromString = (string: string): State => {
   let state = initialState;
   while (true) {
     const remainingString = string.slice(state.string.length);

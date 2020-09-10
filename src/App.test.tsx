@@ -1,4 +1,4 @@
-import { parse } from "./parsing/parse";
+import { parse } from "./parsing/passage";
 
 const tests: { [index: string]: string } = {
   "  abc": "Matthew 2:3",
