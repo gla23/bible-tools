@@ -15,8 +15,6 @@ type ValueState = typeof valueStates[number];
 const isValueState = (state: StateType): state is ValueState =>
   valueStates.indexOf(state as ValueState) !== -1;
 
-export type Testament = "o" | "n";
-
 export class State {
   constructor(state?: State) {
     if (state) {
@@ -34,7 +32,7 @@ export class State {
     }
   }
   type: StateType = "initial";
-  testament: Testament | null = null;
+  testament: "o" | "n" | null = null;
   book: Input | null = null;
   chapter: Input | null = null;
   verse: Input | null = null;
