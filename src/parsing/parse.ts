@@ -1,5 +1,5 @@
 import { BadInputError, checkValueBounds, maxValue } from "./errors";
-import { State, initialState, Testament } from "./state";
+import { State, initialState } from "./state";
 import { nextStateType } from "./transition";
 import { Input } from "./input";
 import { books, bookAbbrvs } from "../data/books";
@@ -37,7 +37,7 @@ const parseMultiDigitNumber = (input: string, state: State): Input | null => {
   return null;
 };
 
-const parseBookName = (input: string, testament: Testament): Input | null => {
+const parseBookName = (input: string, testament: "o" | "n"): Input | null => {
   const matches = (name: string) =>
     input.toLowerCase().startsWith(name.toLowerCase());
   const nameIndex = books[testament].findIndex(matches);

@@ -45,6 +45,10 @@ export class Passage {
   get tokens() {
     return this.state.inputs.map((input) => new Token(this.state, input));
   }
+
+  get testament() {
+    return this.state.testament;
+  }
   get book() {
     const book = this.state.book;
     return book ? new Book(book.value || 0) : null;

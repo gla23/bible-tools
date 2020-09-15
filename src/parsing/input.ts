@@ -1,5 +1,4 @@
 import { InputType } from "./transition";
-import { Testament } from "./state";
 import { ParseError } from "./errors";
 
 export class Input {
@@ -7,7 +6,7 @@ export class Input {
     readonly type: InputType,
     readonly string: string,
     readonly value: number | null,
-    readonly testament: Testament | null = null,
+    readonly testament: "o" | "n" | null = null,
     readonly error: ParseError | null = null
   ) {}
 }
