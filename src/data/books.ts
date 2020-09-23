@@ -131,7 +131,7 @@ export const ntBookAbbrvs = [
   "2Ti",
   "Ti",
   "Phm",
-  "Hebr",
+  "Heb",
   "Js",
   "1P",
   "2P",

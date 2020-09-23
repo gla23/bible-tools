@@ -10,3 +10,6 @@
 .verseEndToken {
   color: rgb(207, 218, 255);
 }
+.errorToken {
+  color: rgb(199, 104, 106);
+}
