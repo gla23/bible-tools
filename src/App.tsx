@@ -1,13 +1,12 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { PassageTokens } from "./components/PassageTokens";
 import { filterWords } from "./data/words";
-import { randomWordPassage, parse, Passage } from "./passage/passage";
+import { randomWordPassage, parse } from "./passage/passage";
 
 const maxWords = 1000;
 
 // TODO:
 // random verse
-// add view on bible gateway button
 
 function App() {
   document.title = "bible-tools";
@@ -21,12 +20,17 @@ function App() {
     [mnemonic, oddity]
   );
 
+  const linkRef = useRef<HTMLAnchorElement>(null);
+  const link = `https://www.biblegateway.com/passage/?search=${reference.replace(
+    " ",
+    "+"
+  )}&version=ESV`;
+
   const refEntered = input && input.includes(reference);
   const showMnemonics =
     (input === mnemonic || refEntered) &&
     (passage.verse || passage.testament === "o");
 
-  const setMnemonic = () => setInput(mnemonic);
   const randomVerse = () => setInput(randomWordPassage(1).reference);
   const randomWord = () => {
     const passage = randomWordPassage(1);
@@ -42,18 +46,31 @@ function App() {
       <input
         type="text"
         value={input}
-        onKeyPress={(e) => e.key === "Enter" && setMnemonic()}
+        onKeyPress={(e) => e.key === "Enter" && linkRef.current?.click()}
         onChange={(e) => setInput(e.target.value)}
       />{" "}
-      {!showMnemonics && <button onClick={setMnemonic}>↵</button>}
+      {input !== "" && !passage.error && (
+        <a
+          className="hint"
+          ref={linkRef}
+          target="_blank"
+          rel="noopener noreferrer"
+          href={link}
+        >
+          <span role="img" aria-label="link">
+            🔗
+          </span>
+        </a>
+      )}
       <p>
         <PassageTokens passage={passage} />
       </p>
       <p>{error?.toString()}</p>
-      <p>
-        {!refEntered && "Reference: "}
-        {!refEntered && <PassageTokens passage={parse(reference)} />}
-      </p>
+      {input !== "" && !refEntered && (
+        <p>
+          Reference: <PassageTokens passage={parse(reference)} />
+        </p>
+      )}
       {showMnemonics && (
         <div>
           <span onClick={() => setShowSlider((a) => !a)}>
