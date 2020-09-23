@@ -15,7 +15,12 @@ code {
     monospace;
 }
 
-input {
+.hint {
+  font-size: small;
+}
+
+input,
+button {
   color: antiquewhite;
   background-color: #2e3648;
   border: thin;

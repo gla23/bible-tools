@@ -1,6 +1,6 @@
 import React from "react";
 import "./PassageTokens.css";
-import { Passage } from "../parsing/passage";
+import { Passage } from "../passage/passage";
 
 export const PassageTokens = (props: { passage: Passage }) => {
   const { tokens, leftover } = props.passage;

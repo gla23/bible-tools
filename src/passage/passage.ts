@@ -1,7 +1,8 @@
-import { stateFromString } from "./parse";
-import { State } from "./state";
-import { Input } from "./input";
+import { stateFromString } from "../parsing/parse";
+import { PassageDescription, State } from "../parsing/state";
+import { Input } from "../parsing/input";
 import { books, bookAbbrvs } from "../data/books";
+import { randomWord } from "../data/words";
 
 class Book {
   constructor(public number: number, public testament: "o" | "n" = "n") {}
@@ -27,10 +28,16 @@ class Token {
 }
 
 export class Passage {
-  constructor(string: string) {
-    this.string = string;
-    this.state = stateFromString(string);
-    this.leftover = string.slice(this.state.string.length);
+  constructor(input: string | PassageDescription) {
+    if (typeof input === "string") {
+      this.state = stateFromString(input);
+      this.string = this.state.string;
+      this.leftover = input.slice(this.string.length);
+      return this;
+    }
+    this.state = State.fromValues(input);
+    this.string = "";
+    this.leftover = "";
   }
   protected state: State;
   public string: string;
@@ -39,6 +46,14 @@ export class Passage {
   get reference() {
     return this.state.reference;
   }
+  get mnemonic() {
+    return this.state.mnemonic;
+  }
+
+  static get random(): Passage {
+    return new Passage("genrr");
+  }
+
   get error() {
     return this.state.error;
   }
@@ -76,3 +91,11 @@ export class Passage {
 }
 
 export const parse = (string: string) => new Passage(string);
+
+export function randomWordPassage(oddity: number) {
+  while (true) {
+    const word = randomWord(oddity);
+    const passage = new Passage(word);
+    if (!passage.error) return passage;
+  }
+}

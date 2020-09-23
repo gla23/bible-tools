@@ -1,40 +1,14 @@
-import { BadInputError, checkValueBounds, maxValue } from "./errors";
+import { BadInputError } from "./errors";
 import { State, initialState } from "./state";
 import { nextStateType } from "./transition";
 import { Input } from "./input";
 import { books, bookAbbrvs } from "../data/books";
-
-const turkishLetterNumbers = {
-  231: 27, // ç
-  351: 28, // ş
-  246: 29, // ö
-  252: 30, // ü
-  199: 57, // Ç
-  350: 58, // Ş
-  214: 59, // Ö
-  220: 60, // Ü
-} as const;
-const parseSingleLetterNumber = (input: string): number | null => {
-  const codepoint = input.codePointAt(0);
-  if (!codepoint) return null;
-  if (input.match(/^[a-z]/)) return codepoint - 96;
-  if (input.match(/^[A-Z]/)) return codepoint - 34;
-  if (input.match(/^0/)) return 30;
-  if (input.match(/^[çÇşŞöÖüÜ]/))
-    return turkishLetterNumbers[codepoint as keyof typeof turkishLetterNumbers];
-  return null;
-};
+import { toNumber } from "../data/conversion";
 
 const parseMultiDigitNumber = (input: string, state: State): Input | null => {
   const availableDigits = input.match(/^\d+/);
   if (!availableDigits) return null;
-  const max = maxValue(state);
-  for (let cutOff = 0; cutOff < input.length; cutOff++) {
-    const testString = cutOff ? input.slice(0, -cutOff) : input;
-    if (Number(testString) <= max)
-      return new Input("number", testString, Number(testString));
-  }
-  return null;
+  return new Input("number", availableDigits[0], Number(availableDigits[0]));
 };
 
 const parseBookName = (input: string, testament: "o" | "n"): Input | null => {
@@ -71,15 +45,13 @@ const parseInput = (state: State, input: string): Input => {
     if (otBookInput) return otBookInput;
   }
 
-  const singleLetterNumber = parseSingleLetterNumber(input);
+  const singleLetterNumber = toNumber(input);
   if (singleLetterNumber) {
-    const error = checkValueBounds(state, singleLetterNumber);
     return new Input(
-      error ? "error" : "number",
+      "number",
       input[0],
       singleLetterNumber,
-      nextStateType(state.type, "number") === "book" ? "n" : null,
-      error
+      nextStateType(state.type, "number") === "book" ? "n" : null
     );
   }
 

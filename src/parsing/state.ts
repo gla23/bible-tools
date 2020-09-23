@@ -1,9 +1,9 @@
 import { Input } from "./input";
 import { nextStateType, StateType } from "./transition";
-import { otBooks, ntBooks } from "../data/books";
-import { ParseError } from "./errors";
+import { toMnemonic, toReference } from "./outputs";
+import { ParseError, errorCheckInput } from "./errors";
 
-const valueStates = [
+export const valueStates = [
   "book",
   "chapter",
   "verse",
@@ -44,13 +44,14 @@ export class State {
   error: ParseError | null = null;
 
   transition(this: State, input: Input): State {
+    input = this.errorCheckInput(input);
     const newStateType = nextStateType(this.type, input.type);
     const newState: State = new State(this);
     newState.type = newStateType;
     newState.testament = input.testament || this.testament;
     newState.inputs = [...this.inputs, input];
     newState.string = this.string + input.string;
-    newState.error = input.error || this.error;
+    newState.error = this.error || input.error;
     if (input.type === "number" && isValueState(newStateType)) {
       newState[newStateType] = input;
     }
@@ -62,29 +63,41 @@ export class State {
     }
     return input.type;
   }
+
+  errorCheckInput(input: Input) {
+    return errorCheckInput(this, input);
+  }
+
   get reference(): string {
-    const {
-      testament,
-      book,
-      chapter,
-      verse,
-      bookEnd,
-      chapterEnd,
-      verseEnd,
-    } = this;
-    const books = testament === "o" ? otBooks : ntBooks;
-    const sectionTo =
-      (bookEnd ? books[(bookEnd.value || 1) - 1] + " " : "") +
-      (chapterEnd?.value || "") +
-      (chapterEnd && verseEnd ? ":" : "") +
-      (verseEnd?.value || "");
-    return (
-      (book ? books[(book.value || 1) - 1] : "") +
-      (chapter ? " " + chapter.value : "") +
-      (verse ? ":" + verse.value : "") +
-      (sectionTo ? "-" + sectionTo : "")
-    );
+    return toReference(this);
+  }
+  get mnemonic(): string {
+    return toMnemonic(this);
+  }
+
+  static fromValues(input: PassageDescription) {
+    let state = new State();
+    let doingEnd = false;
+    valueStates.forEach((inputType, index) => {
+      if (!input[inputType]) return null;
+      if (!doingEnd && inputType.includes("End")) {
+        state = state.transition(new Input("hyphen", "", null));
+        doingEnd = true;
+      }
+      state = state.transition(
+        new Input("number", "", input[inputType] || null, input.testament)
+      );
+    });
+    return state;
   }
 }
-
+export interface PassageDescription {
+  testament: "o" | "n";
+  book: number;
+  chapter?: number;
+  verse?: number;
+  bookEnd?: number;
+  chapterEnd?: number;
+  verseEnd?: number;
+}
 export const initialState = new State();
