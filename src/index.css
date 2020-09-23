@@ -15,10 +15,6 @@ code {
     monospace;
 }
 
-.hint {
-  font-size: small;
-}
-
 input,
 button {
   color: antiquewhite;
@@ -31,4 +27,12 @@ input:focus {
 
 .App {
   padding: 30px;
+}
+
+.hint {
+  font-size: small;
+}
+
+a {
+  text-decoration: none;
 }
