@@ -16,8 +16,9 @@ const tests: { [index: string]: string } = {
   "Mat 29": "Matthew",
   exo: "Exodus", // exo Exodus with Acts 24:15 collision
   heb: "Hebrews", // heb Hebrews with 2 Cor 5:2 collision
+  "ps118-119:81": "Psalm 118-119:81",
 };
-test("Passage parsing", () => {
+test("Passages parse correctly", () => {
   Object.keys(tests).forEach((passage) => {
     const parsed = parse(passage).reference;
     expect(parsed).toBe(tests[passage]);
@@ -43,23 +44,28 @@ test("Parsed verses are parsable", () => {
 
 const mnemonics = {
   age: "Matthew 7:5",
-  fear: "Romans 5:1",
-  gospel: "1 Corinthians 15:19",
-  gentle: "Genesis 20:12",
+  fea: "Romans 5:1",
+  gos: "1 Corinthians 15:19",
+  gentl: "Genesis 20:12",
   tap: "James 1:16",
-  festival: "Romans 5:19",
-  cheese: "Luke 8:5",
-  fish: "Romans 9:19",
-  explain: "Acts 24:16",
+  fes: "Romans 5:19",
+  che: "Luke 8:5",
+  fis: "Romans 9:19",
+  exp: "Acts 24:16",
   "ae-g": "Matthew 5-7",
   "aeq-t": "Matthew 5:17-20",
   "ae-ft": "Matthew 5-6:20",
+  "ps119:71": "Psalm 119:71",
+  "ps119:71-81": "Psalm 119:71-81",
+  "ps118-119:81": "Psalm 118-119:81",
+  "ps118-119e": "Psalm 118-119:5",
 };
 
-test("Verses give correct mnemonic", () => {
+test("Mnemonics and verses parse both ways", () => {
   Object.entries(mnemonics).forEach(([mnemonic, verse]) => {
-    const parsed = parse(verse).mnemonic;
-    expect(parsed).toBe(mnemonic.slice(0, parsed.length));
+    const attempt = parse(verse).mnemonic;
+    expect(attempt).toBe(mnemonic);
+    expect(parse(attempt).reference).toBe(verse);
   });
 });
 
@@ -83,11 +89,29 @@ const passageValueSets = {
   },
 } as const;
 
-test("Can create passage from values", () => {
+test("Passages are creatable from objects", () => {
   Object.entries(passageValueSets).forEach(([reference, valueSet]) => {
     expect(new Passage(valueSet).reference).toBe(reference);
   });
   expect(
     new Passage({ testament: "n", book: 1, chapter: 29, verse: 340958 }).error
   ).not.toBe(null);
+});
+
+const verseNumbers = {
+  "Genesis 1:1": 1,
+  "Matthew 1:1": 23146,
+  "Mark 5:5": 24216 + 45 + 28 + 35 + 41 + 5,
+};
+
+test("The Nth verse can be found/constructed", () => {
+  Object.entries(verseNumbers).forEach(([ref, n]) => {
+    expect(new Passage(ref).verseNumber).toBe(n);
+    expect(Passage.nthVerse(n).reference).toBe(ref);
+  });
+});
+
+test("A Passage's ending verse can be found", () => {
+  expect(new Passage("asd-f").endVerse.mnemonic).toBe("asf");
+  expect(new Passage("as-tr").endVerse.mnemonic).toBe("atr");
 });

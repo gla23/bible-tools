@@ -4,6 +4,7 @@
     "declaration": true,
     "outDir": ".",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
   },
   "include": [
     "../src"

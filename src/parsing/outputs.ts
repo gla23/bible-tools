@@ -38,11 +38,14 @@ export function toMnemonic(state: State): string {
     verseEnd,
   } = state;
   const section = (input: Input | null): string =>
-    (input?.value && toString(input?.value)) || "";
+    (input?.value && toString(input?.value)) || input?.value?.toString() || "";
   const otBook = (input: Input | null): string =>
     ((input?.value && bookAbbrvs["o"][input?.value - 1]) || "").toLowerCase();
   const bookSection = testament === "n" ? section : otBook;
-  const from = bookSection(book) + section(chapter) + section(verse);
-  const to = bookSection(bookEnd) + section(chapterEnd) + section(verseEnd);
+  const addColon = (a: string, b: string) =>
+    /\d+/.test(a) && /\d+/.test(b) ? a + ":" + b : a + b;
+  const from = bookSection(book) + addColon(section(chapter), section(verse));
+  const to =
+    bookSection(bookEnd) + addColon(section(chapterEnd), section(verseEnd));
   return to ? from + "-" + to : from;
 }

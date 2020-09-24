@@ -1,32 +1,26 @@
 import React, { useMemo, useRef, useState } from "react";
 import { PassageTokens } from "./components/PassageTokens";
-import { filterWords } from "./data/words";
-import { randomWordPassage, parse } from "./passage/passage";
+import { filterWords, randomWord } from "./data/words";
+import { parse, Passage } from "./passage/passage";
 
 const maxWords = 1000;
 
-// TODO:
-// random verse
+console.log(Passage);
 
 function App() {
-  document.title = "bible-tools";
   const [input, setInput] = useState("");
   const [oddity, setOddity] = useState(3);
   const [showSlider, setShowSlider] = useState(false);
   const passage = parse(input);
   const { reference, mnemonic, error } = passage;
+  const refEntered = input && input.includes(reference);
+  const linkRef = useRef<HTMLAnchorElement>(null);
+
   const matches = useMemo(
     () => filterWords({ startsWith: mnemonic, oddity, maxWords }),
     [mnemonic, oddity]
   );
 
-  const linkRef = useRef<HTMLAnchorElement>(null);
-  const link = `https://www.biblegateway.com/passage/?search=${reference.replace(
-    " ",
-    "+"
-  )}&version=ESV`;
-
-  const refEntered = input && input.includes(reference);
   const showMnemonics =
     (input === mnemonic || refEntered) &&
     (passage.verse || passage.testament === "o");
@@ -39,7 +33,7 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={randomWord}>Random word</button>
+      <button onClick={randomWord}>Random word</button>{" "}
       <button onClick={randomVerse}>Random verse</button>
       <br />
       Input:{" "}
@@ -55,7 +49,10 @@ function App() {
           ref={linkRef}
           target="_blank"
           rel="noopener noreferrer"
-          href={link}
+          href={`https://www.biblegateway.com/passage/?search=${reference.replace(
+            " ",
+            "+"
+          )}&version=ESV`}
         >
           <span role="img" aria-label="link">
             🔗
@@ -84,7 +81,8 @@ function App() {
               </>
             ) : (
               <>
-                No matching words found.
+                No matching <PassageTokens passage={parse(mnemonic)} /> words
+                found.
                 <p className="hint">
                   Maybe it's an acronym? Good mental hooks take creativity!
                 </p>
@@ -112,6 +110,14 @@ function App() {
       )}
     </div>
   );
+}
+
+function randomWordPassage(oddity: number) {
+  while (true) {
+    const word = randomWord(oddity);
+    const passage = new Passage(word);
+    if (!passage.error) return passage;
+  }
 }
 
 export default App;
