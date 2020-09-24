@@ -8,7 +8,7 @@
   - Verse counts per chapter book and testament (with sum and cumulative totals)
 - Random verse finder
 - A verse reference and mnemonic parsing tool
-- Type declarations for all exports
+- Type declarations for exports
 
 See the parser in action [here](https://gla23.github.io/bible-tools/)
 
@@ -25,15 +25,15 @@ books["o"] // ["Genesis", "Exodus", ...]
 books["n"] // ["Matthew", "Mark", ...]
 
 verseCounts.total // 31102
-verseCounts["n"].total // 7957 (verses in OT)
+verseCounts["n"].total // 7957 (verses in NT)
 verseCounts["n"][0].total // 1071 (verses in Matthew)
 verseCounts["n"][0].cumulative // 31102 (verses up to and including Matthew)
 verseCounts["n"][0][0] // 25 (verses in Matthew 1)
 
 parse("aaa").reference // "Matthew 1:1"
 parse("bbb").reference // "Mark 2:2"
-parse("dope").reference // "John 15:16"
 parse("gene").reference // "Genesis 5"
+parse("dope").reference // "John 15:16"
 
 parse("Matthew 29").error // 29 is over maximum of 28 chapters in Matthew
 parse("Isaiah 12:7").error // 7 is over maximum of 6 verses in Isaiah 12

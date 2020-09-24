@@ -23,8 +23,8 @@ export class BadInputError extends ParseError {
 }
 
 function inputMaxValue(state: State, input: Input): number {
-  const book = state.book?.value || 1;
-  const chapter = state.chapter?.value || 1;
+  const book = (state.bookEnd || state.book)?.value || 1;
+  const chapter = (state.chapterEnd || state.chapter)?.value || 1;
   const verseCounts =
     (state.testament || input.testament) === "o"
       ? otVerseCounts
@@ -52,16 +52,18 @@ function inputValueError(state: State, input: Input): Error | null {
   const min = inputMinValue(state, input);
   const max = inputMaxValue(state, input);
   const value = input.value || 0;
-  const inRef = state.reference ? "in " + state.reference : "";
   const next = nextStateType(state.type, "number");
-  const boundType = next.endsWith("To") ? next.slice(0, -2) : next;
+  const boundType = next.endsWith("End") ? next.slice(0, -3) : next;
+
   if (max < min) return new BoundsError(`No valid ${boundType}`);
   if (value < min)
     return new BoundsError(`${boundType} must be over ${min - 1}`);
-  if (value > max)
+  if (value > max) {
+    const inRef = state.reference ? "in " + state.reference : "";
     return new BoundsError(
       `${value} is over maximum of ${max} ${boundType}s ${inRef}`
     );
+  }
   return null;
 }
 
