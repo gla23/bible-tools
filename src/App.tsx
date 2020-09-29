@@ -1,21 +1,20 @@
 import React, { useMemo, useRef, useState } from "react";
 import { PassageTokens } from "./components/PassageTokens";
-import { filterWords, randomWord } from "./data/words";
-import { parse, Passage } from "./passage/passage";
-
-const maxWords = 1000;
-
-console.log(Passage);
+import { filterWords } from "./data/words";
+import { parse } from "./passage/passage";
+import { randomWordPassage, randomPassageReference } from "./functions/random";
+import { NETPassage } from "./components/NETPassage";
+import { Link } from "./Link";
 
 function App() {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState(defaultInput);
   const [oddity, setOddity] = useState(3);
   const [showSlider, setShowSlider] = useState(false);
   const passage = parse(input);
   const { reference, mnemonic, error } = passage;
   const refEntered = input && input.includes(reference);
+  const valid = input !== "" && !passage.error;
   const linkRef = useRef<HTMLAnchorElement>(null);
-
   const matches = useMemo(
     () => filterWords({ startsWith: mnemonic, oddity, maxWords }),
     [mnemonic, oddity]
@@ -25,11 +24,11 @@ function App() {
     (input === mnemonic || refEntered) &&
     (passage.verse || passage.testament === "o");
 
-  const randomVerse = () => setInput(randomWordPassage(1).reference);
   const randomWord = () => {
     const passage = randomWordPassage(1);
     setInput(passage.string + passage.leftover);
   };
+  const randomVerse = () => setInput(randomPassageReference(oddity));
 
   return (
     <div className="App">
@@ -43,30 +42,23 @@ function App() {
         onKeyPress={(e) => e.key === "Enter" && linkRef.current?.click()}
         onChange={(e) => setInput(e.target.value)}
       />{" "}
-      {input !== "" && !passage.error && (
-        <a
-          className="hint"
-          ref={linkRef}
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://www.biblegateway.com/passage/?search=${reference.replace(
-            " ",
-            "+"
-          )}&version=ESV`}
-        >
-          <span role="img" aria-label="link">
-            🔗
-          </span>
-        </a>
-      )}
+      <Link ref={linkRef} reference={reference} />
       <p>
         <PassageTokens passage={passage} />
       </p>
       <p>{error?.toString()}</p>
-      {input !== "" && !refEntered && (
-        <p>
+      {valid && !refEntered && (
+        <p onClick={() => setInput(reference)}>
           Reference: <PassageTokens passage={parse(reference)} />
         </p>
+      )}
+      {valid && refEntered && (
+        <p>
+          Mnemonic: <PassageTokens passage={parse(mnemonic)} />
+        </p>
+      )}
+      {valid && (
+        <NETPassage reference={input && passage.chapter ? reference : null} />
       )}
       {showMnemonics && (
         <div>
@@ -81,7 +73,7 @@ function App() {
               </>
             ) : (
               <>
-                No matching <PassageTokens passage={parse(mnemonic)} /> words
+                No words matching <PassageTokens passage={parse(mnemonic)} />{" "}
                 found.
                 <p className="hint">
                   Maybe it's an acronym? Good mental hooks take creativity!
@@ -91,7 +83,7 @@ function App() {
           </span>
           {showSlider && (
             <div>
-              Word strangeness:{" "}
+              Word esotericism:{" "}
               <input
                 type="range"
                 value={oddity}
@@ -103,7 +95,9 @@ function App() {
           )}
           {matches.map((word, index) => (
             <p key={index + word} style={{ margin: "5px" }}>
-              <small>{word}</small>
+              <small onClick={() => (window.location.search = "?v=" + word)}>
+                {word}
+              </small>
             </p>
           ))}
         </div>
@@ -111,13 +105,6 @@ function App() {
     </div>
   );
 }
-
-function randomWordPassage(oddity: number) {
-  while (true) {
-    const word = randomWord(oddity);
-    const passage = new Passage(word);
-    if (!passage.error) return passage;
-  }
-}
-
+const maxWords = 1000;
+const defaultInput = new URLSearchParams(window.location.search).get("v") || "";
 export default App;
