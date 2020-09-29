@@ -40,6 +40,15 @@ interface Filters {
   startsWith?: string;
   maxWords?: number;
 }
+export function wordExists(filters: Filters = {}): string | false {
+  const { oddity = 0, startsWith = "" } = filters;
+  for (let group = 0; group < wordGroups.length; group++) {
+    if (group > oddity) return false;
+    const match = wordGroups[group].find((word) => word.startsWith(startsWith));
+    if (match) return match;
+  }
+  return false;
+}
 export function filterWords(filters: Filters = {}): string[] {
   const { oddity = 0, startsWith, maxWords = 1000 } = filters;
   const filteredWords: string[] = [];
