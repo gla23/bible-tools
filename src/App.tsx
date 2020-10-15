@@ -42,7 +42,7 @@ function App() {
         onKeyPress={(e) => e.key === "Enter" && linkRef.current?.click()}
         onChange={(e) => setInput(e.target.value)}
       />{" "}
-      <Link ref={linkRef} reference={reference} />
+      {valid && <Link ref={linkRef} reference={reference} />}
       <p>
         <PassageTokens passage={passage} />
       </p>
