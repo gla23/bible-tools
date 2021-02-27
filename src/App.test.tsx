@@ -1,3 +1,4 @@
+import { PassageDescription } from "./parsing/state";
 import { parse, Passage } from "./passage/passage";
 
 const tests: { [index: string]: string } = {
@@ -69,7 +70,7 @@ test("Mnemonics and verses parse both ways", () => {
   });
 });
 
-const passageValueSets = {
+const passageValueSets: { [ref: string]: PassageDescription } = {
   "Matthew 5:5": { testament: "n", book: 1, chapter: 5, verse: 5 },
   "Joshua 5:14": { testament: "o", book: 6, chapter: 5, verse: 14 },
   "Exodus 5-14": { testament: "o", book: 2, chapter: 5, chapterEnd: 14 },
@@ -87,7 +88,7 @@ const passageValueSets = {
     verse: 9,
     verseEnd: 14,
   },
-} as const;
+};
 
 test("Passages are creatable from objects", () => {
   Object.entries(passageValueSets).forEach(([reference, valueSet]) => {
@@ -114,4 +115,30 @@ test("The Nth verse can be found/constructed", () => {
 test("A Passage's ending verse can be found", () => {
   expect(new Passage("asd-f").endVerse.mnemonic).toBe("asf");
   expect(new Passage("as-tr").endVerse.mnemonic).toBe("atr");
+});
+
+test("Book chapter verse accessors work correctly", () => {
+  const ps = new Passage("ps67d");
+  expect(ps.book?.name).toBe("Psalm");
+  expect(ps.book?.number).toBe(19);
+  expect(ps.book?.shortcut).toBe("ps");
+  expect(ps.chapter).toBe(67);
+  expect(ps.verse).toBe(4);
+  const sdp = new Passage("sdp");
+  expect(sdp.book?.name).toBe("Hebrews");
+  expect(sdp.book?.number).toBe(19);
+  expect(sdp.book?.shortcut).toBe("s");
+  expect(sdp.chapter).toBe(4);
+  expect(sdp.verse).toBe(16);
+  // const gepc = new Passage("iaa-ldr");
+  // expect(gepc.book?.name).toBe("Galatians");
+  // expect(gepc.book?.number).toBe(9);
+  // expect(gepc.book?.shortcut).toBe("i");
+  // expect(gepc.chapter).toBe(1);
+  // expect(gepc.verse).toBe(1);
+  // expect(gepc.bookEnd?.name).toBe("Colossians");
+  // expect(gepc.bookEnd?.number).toBe(9);
+  // expect(gepc.bookEnd?.shortcut).toBe("i");
+  // expect(gepc.chapterEnd).toBe(4);
+  // expect(gepc.verseEnd).toBe(18);
 });

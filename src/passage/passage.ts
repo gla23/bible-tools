@@ -3,7 +3,7 @@ import { PassageDescription, State } from "../parsing/state";
 import { Input } from "../parsing/input";
 import { books, bookAbbrvs } from "../data/books";
 import { verseCounts } from "../data/verses";
-
+import { toString } from "../data/conversion";
 class Book {
   constructor(public number: number, public testament: "o" | "n" = "n") {}
   get name() {
@@ -11,6 +11,11 @@ class Book {
   }
   get abbrv() {
     return bookAbbrvs[this.testament][this.number - 1];
+  }
+  get shortcut() {
+    return this.testament === "o" || this.number === 27
+      ? this.abbrv.toLocaleLowerCase()
+      : toString(this.number);
   }
 }
 
@@ -103,11 +108,15 @@ export class Passage {
   }
   get book() {
     const book = this.state.book;
-    return book ? new Book(book.value || 0) : null;
+    if (!this.testament) return null;
+    if (!book || !book.value) return null;
+    return new Book(book.value, this.testament);
   }
   get bookEnd() {
     const bookEnd = this.state.bookEnd;
-    return bookEnd ? new Book(bookEnd.value || 0) : null;
+    if (!this.testament) return null;
+    if (!bookEnd || !bookEnd.value) return null;
+    return new Book(bookEnd.value, this.testament);
   }
   get chapter() {
     const chapter = this.state.chapter;

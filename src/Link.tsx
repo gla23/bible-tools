@@ -1,20 +1,19 @@
 import React from "react";
 
-export const Link = React.forwardRef<HTMLAnchorElement, { reference: string }>(
-  (props, ref) => (
-    <a
-      className="hint"
-      ref={ref}
-      target="_blank"
-      rel="noopener noreferrer"
-      href={`https://www.biblegateway.com/passage/?search=${props.reference.replace(
-        " ",
-        "+"
-      )}&version=ESV`}
-    >
-      <span role="img" aria-label="link">
-        🔗
-      </span>
-    </a>
-  )
-);
+export const Link = React.forwardRef<
+  HTMLAnchorElement,
+  { url: string; children?: JSX.Element | string; className?: string }
+>((props, ref) => (
+  <a
+    className={"hint " + props.className}
+    style={{ marginLeft: "5px" }}
+    ref={ref}
+    target="_blank"
+    rel="noopener noreferrer"
+    href={props.url}
+  >
+    <span role="img" aria-label="link">
+      {props.children || "🔗"}
+    </span>
+  </a>
+));
