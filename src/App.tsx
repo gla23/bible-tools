@@ -42,7 +42,25 @@ function App() {
         onKeyPress={(e) => e.key === "Enter" && linkRef.current?.click()}
         onChange={(e) => setInput(e.target.value)}
       />{" "}
-      {valid && <Link ref={linkRef} reference={reference} />}
+      {valid && (
+        <>
+          <Link
+            ref={linkRef}
+            url={`https://www.stepbible.org/?q=version=ESV|reference=${reference.replace(
+              " ",
+              "+"
+            )}`}
+          >
+            α
+          </Link>
+          <Link
+            url={`https://www.biblegateway.com/passage/?search=${reference.replace(
+              " ",
+              "+"
+            )}&version=ESV`}
+          />
+        </>
+      )}
       <p>
         <PassageTokens passage={passage} />
       </p>
