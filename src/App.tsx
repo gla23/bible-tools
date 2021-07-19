@@ -5,6 +5,7 @@ import { parse } from "./passage/passage";
 import { randomWordPassage, randomPassageReference } from "./functions/random";
 import { NETPassage } from "./components/NETPassage";
 import { Link } from "./Link";
+import { Wikipedia } from "./Wikipedia";
 
 function App() {
   const [input, setInput] = useState(defaultInput);
@@ -32,6 +33,7 @@ function App() {
 
   return (
     <div className="App">
+      <Wikipedia />
       <button onClick={randomWord}>Random word</button>{" "}
       <button onClick={randomVerse}>Random verse</button>
       <br />
