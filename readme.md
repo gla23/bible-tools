@@ -10,13 +10,15 @@
 - A verse reference and mnemonic parsing tool
 - Type declarations for exports
 
-See the parser in action [here](https://gla23.github.io/bible-tools/)
+See the parser in action [here](https://gla23.github.io/bible-tools/).
 
 ### Usage:
 
 ```
 npm install --save bible-tools
 ```
+
+Play around with the package on [stackblitz](https://stackblitz.com/edit/bible-tools).
 
 ```
 import { books, verseCounts, parse, Passage } from "bible-tools"
