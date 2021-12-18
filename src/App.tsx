@@ -4,7 +4,7 @@ import { filterWords } from "./data/words";
 import { parse } from "./passage/passage";
 import { randomWordPassage, randomPassageReference } from "./functions/random";
 import { NETPassage } from "./components/NETPassage";
-import { Link } from "./Link";
+import { Link } from "./components/Link";
 
 function App() {
   const [input, setInput] = useState(defaultInput);
