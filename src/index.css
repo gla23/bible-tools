@@ -13,11 +13,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
 input,
 button {
   color: antiquewhite;
@@ -41,4 +36,7 @@ input:focus {
 a {
   color: antiquewhite;
   text-decoration: none;
+}
+p {
+  margin: 16px 0 16px 0;
 }
