@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { animated, config, useSpring } from "react-spring";
 import { Renderable } from "../utils/Renderable";
-import "./shake.css";
 
 function nextNumber(number: number) {
   const minChangeDiff = 6;
@@ -12,7 +11,7 @@ function nextNumber(number: number) {
   return newNumber;
 }
 
-export function NumberToLetter(props: { children: Renderable }) {
+export function NumberToLetterAnimation(props: { children: Renderable }) {
   const [reversed, setReversed] = useState(false);
   const [number, setNumber] = useState(1);
   const [displacement, setDisplacement] = useState(0);
@@ -37,7 +36,7 @@ export function NumberToLetter(props: { children: Renderable }) {
   });
   return (
     <div>
-      <div className="flex w-40 m-auto text-3xl my-8">
+      <div className={`flex w-40 m-auto text-3xl my-8`}>
         <animated.div className="flex-grow w-4 text-center" style={shakeSpring}>
           {reversed ? String.fromCodePoint(64 + number) : number}
         </animated.div>
@@ -46,6 +45,7 @@ export function NumberToLetter(props: { children: Renderable }) {
             const i = index + 1;
             return (
               <animated.div
+                key={index}
                 className="absolute"
                 style={{
                   opacity: letterSpring.number.to(

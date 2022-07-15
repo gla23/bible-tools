@@ -7,9 +7,11 @@ import { randomWordPassage, randomPassageReference } from "./functions/random";
 import { NETPassage } from "./components/NETPassage";
 import { Link } from "./components/Link";
 import { explanation } from "./explanation/explanation";
+import { ContentModal } from "content-modal";
 
 const box = "text-xl p-8";
 function App() {
+  const [open, setOpen] = useState(true);
   const [input, setInput] = useState(defaultInput);
   const [oddity, setOddity] = useState(3);
   const [showSlider, setShowSlider] = useState(false);
@@ -44,6 +46,12 @@ function App() {
           {page}
         </div>
       ))}
+      <ContentModal
+        content={explanation}
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        darkMode
+      ></ContentModal>
       <button onClick={randomWord}>Random word</button>{" "}
       <button onClick={randomVerse}>Random verse</button>
       <br />
@@ -54,6 +62,7 @@ function App() {
         onKeyPress={(e) => e.key === "Enter" && linkRef.current?.click()}
         onChange={(e) => setInput(e.target.value)}
       />{" "}
+      <div onClick={() => setOpen(true)}>?</div>
       {valid && (
         <>
           <Link
