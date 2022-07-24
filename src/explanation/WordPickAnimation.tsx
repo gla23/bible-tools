@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { animated, useSpring } from "react-spring";
 import { filterWords } from "../data/words";
 import { useInterval } from "../utils/useInterval";
@@ -41,11 +41,13 @@ export function WordPickAnimation() {
             className="absolute ml-1 mr-2"
             style={{
               opacity: spring.wordIndex.to((n) => {
-                const fraction = wordIndex === 0 ? -n / 4 : n - Math.ceil(n);
+                const fraction =
+                  wordIndex === 0 ? -n / (words.length - 1) : n - Math.ceil(n);
                 return 1 - Math.abs(difference + fraction) * 0.5;
               }),
               y: spring.wordIndex.to((n) => {
-                const fraction = wordIndex === 0 ? -n / 4 : n - Math.ceil(n);
+                const fraction =
+                  wordIndex === 0 ? -n / (words.length - 1) : n - Math.ceil(n);
                 return (offset - fraction) * 25;
               }),
             }}
