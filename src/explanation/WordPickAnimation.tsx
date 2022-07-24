@@ -19,7 +19,7 @@ export function WordPickAnimation() {
   useInterval(next, 900);
 
   return (
-    <div className="mt-20 ml-20 mb-20">
+    <div className="mt-16 ml-20 mb-20">
       d e s{" "}
       {[-2, -1, 0, 1, 2].map((offset) => {
         const wordIndexMap = (wordIndex + offset + words.length) % words.length;

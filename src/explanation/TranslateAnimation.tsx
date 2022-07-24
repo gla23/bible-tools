@@ -32,8 +32,8 @@ export function TranslateAnimation() {
 
   useInterval(next, 1000);
 
-  const extraXLine1 = -40;
-  const extraXLine2 = -20;
+  const extraXLine1 = -15;
+  const extraXLine2 = -50;
   const lineHeightDiff = 225;
   const textOpacityLoss = 0.3;
   const textSwapSpring = springs[3];
@@ -50,7 +50,7 @@ export function TranslateAnimation() {
             opacity: textSwapSpring.fraction.to((f) => 1 - textOpacityLoss * f),
           }}
         >
-          First, John is the 4th book:{" "}
+          John is the 4th book:{" "}
         </animated.span>
         <span className="w-48 m-auto ml-3 select-none">
           {stageItems.map((stageItem, itemIndex) => {
@@ -147,7 +147,7 @@ export function TranslateAnimation() {
           ),
         }}
       >
-        Then we convert to the letters:
+        Then convert to letters:
       </animated.p>
     </>
   );

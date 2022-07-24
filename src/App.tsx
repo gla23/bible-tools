@@ -47,7 +47,9 @@ function App() {
         </div>
       ))}
       <ContentModal
-        content={explanation}
+        content={explanation.map((a) => (
+          <div className="text-xl">{a}</div>
+        ))}
         isOpen={open}
         onClose={() => setOpen(false)}
         darkMode
