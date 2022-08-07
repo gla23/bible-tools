@@ -27,7 +27,7 @@ export const explanation = [
     <span className="flex m-8 text-gray-300">
       Mnemonic:
       <blockquote className="ml-8">
-        A system, such as a pattern of letters, which assists in remembering
+        A system such as a pattern of letters which assists in remembering
         something.
       </blockquote>
     </span>
@@ -40,7 +40,14 @@ export const explanation = [
       See more for an explanation <Wobble>→</Wobble>
     </p>
   </>,
-  <>
+  <span
+    style={{
+      display: "block",
+      position: "relative",
+      height: 285,
+      overflow: "hidden",
+    }}
+  >
     <p>
       <span className="text-gray-300">A quick note first:</span> To use this
       system you need to be able to translate between numbers and letters:
@@ -51,7 +58,7 @@ export const explanation = [
         {/* It may take some time investment to learn this, but becomes easy with practice ✨ */}
       </p>
     </NumberToLetterAnimation>
-  </>,
+  </span>,
   <>
     <div className="my-4"></div>
     Now onto an example: <span className="text-sky-400">John 5:19</span>
@@ -112,9 +119,9 @@ export const explanation = [
     </div>
   </>,
   <>
-    <p>That's it! </p>
+    <p>That's it!</p>
     Have a look at some other examples, look at the FAQs, or play around with
-    the conversion tool/mnemonic generator.
+    the mnemonic generator.
     <p>
       Please get in touch if you have any feedback, clarification or ideas!
       GitHub
