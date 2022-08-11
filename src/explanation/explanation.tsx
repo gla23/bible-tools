@@ -22,11 +22,11 @@ const threeSteps = (
 );
 export const explanation = [
   <>
-    <h2 className="text-4xl">Welcome to the Bible mnemonic creator!</h2>
+    <h2 className="text-xl">Welcome to the Bible mnemonic creator!</h2>
 
-    <span className="flex m-8 text-gray-300">
+    <span className="flex m-4 mr-0 text-gray-300">
       Mnemonic:
-      <blockquote className="ml-8">
+      <blockquote className="ml-2">
         A system such as a pattern of letters which assists in remembering
         something.
       </blockquote>
@@ -44,7 +44,7 @@ export const explanation = [
     style={{
       display: "block",
       position: "relative",
-      height: 285,
+      height: 300,
       overflow: "hidden",
     }}
   >
@@ -80,7 +80,7 @@ export const explanation = [
   </>,
   <>
     <p>Then think about the verse meaning:</p>
-    <p className="px-6">{verseText}</p>
+    <p className="pl-6 pr-1">{verseText}</p>
     <p>What is the concept you want to remember?</p>
   </>,
   <>
@@ -88,11 +88,11 @@ export const explanation = [
     <p>
       Link the verse concept with the mnemonic in a way thats memorable for you.
     </p>
-    <div className="flex">
-      <div className="basis-1/2">
+    <div className="flex flex-wrap">
+      <div className="basis-48 grow">
         <WordPickAnimation></WordPickAnimation>
       </div>
-      <div className="basis-1/2 py-6 pr-4">
+      <div className="basis-48 grow pr-4 py-4">
         e.g. Jesus was completely available for his Father's{" "}
         <span className="text-sky-400 ">des</span>ires. He only did what he saw
         his Father doing.

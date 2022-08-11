@@ -10,14 +10,15 @@ export function TranslateAnimation() {
     index: number;
     x2: number;
   }[] = [
-    { x: 62, y: 59, index: 4, x2: 34 },
-    { x: 20, y: 103, index: 5, x2: 68 },
-    { x: -1, y: 147, index: 19, x2: 103 },
+    { x: 39, y: 35, index: 4, x2: 28 },
+    { x: 9, y: 72, index: 5, x2: 52 },
+    { x: -7, y: 109, index: 19, x2: 80 },
   ];
-  const [stageAt, setState] = useState(7);
+  const [stageAt, setState] = useState(0);
   const stageCount = (stageItems.length + 1) * 2;
-  const next = () => setState((s) => (s + 1) % stageCount);
-  // const next = () => setState((s) => (s === 6 ? 7 : 6));
+  // const next = () => setState((s) => (s + 1) % stageCount);
+  const [from, size] = [0, 1];
+  const next = () => setState((s) => (s < from + size ? s + 1 : from));
 
   const springs = useSprings(
     stageCount,
@@ -30,11 +31,11 @@ export function TranslateAnimation() {
     to: { fraction: stageAt / (stageCount - 1) },
   });
 
-  useInterval(next, 1000);
+  // useInterval(next, 1000);
 
-  const extraXLine1 = -15;
+  const extraXLine1 = -20;
   const extraXLine2 = -50;
-  const lineHeightDiff = 225;
+  const lineHeightDiff = 192;
   const textOpacityLoss = 0.3;
   const textSwapSpring = springs[3];
 
@@ -44,7 +45,7 @@ export function TranslateAnimation() {
   const offset = 0.2;
   return (
     <>
-      <p>
+      <div>
         <animated.span
           style={{
             opacity: textSwapSpring.fraction.to((f) => 1 - textOpacityLoss * f),
@@ -52,7 +53,8 @@ export function TranslateAnimation() {
         >
           John is the 4th book:{" "}
         </animated.span>
-        <span className="w-48 m-auto ml-3 select-none">
+        <div></div>
+        <span className="block w-24 mt-4 ml-12 select-none">
           {stageItems.map((stageItem, itemIndex) => {
             const { index, x, y, x2 } = stageItem;
             const y2 = lineHeightDiff - y;
@@ -135,12 +137,12 @@ export function TranslateAnimation() {
             );
           })}
         </span>
-      </p>
-      <p className="ml-40 mt-8">Book</p>
-      <p className="ml-40">Chapter</p>
-      <p className="ml-40">Verse</p>
+      </div>
+      <p className="ml-0 mt-4">Book</p>
+      <p className="ml-0">Chapter</p>
+      <p className="ml-0">Verse</p>
       <animated.p
-        className="mt-12"
+        className="mt-6"
         style={{
           opacity: textSwapSpring.fraction.to(
             (f) => 1 - textOpacityLoss + textOpacityLoss * f

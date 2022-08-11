@@ -37,18 +37,9 @@ function App() {
 
   return (
     <div className="App">
-      {explanation.map((page, i) => (
-        <div
-          className={box}
-          style={{ border: "white solid 1px", margin: 12 }}
-          key={i}
-        >
-          {page}
-        </div>
-      ))}
       <ContentModal
         content={explanation.map((a) => (
-          <div className="text-xl">{a}</div>
+          <div className="text-sm">{a}</div>
         ))}
         isOpen={open}
         onClose={() => setOpen(false)}
