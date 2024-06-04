@@ -16,9 +16,9 @@ export function TranslateAnimation() {
   ];
   const [stageAt, setState] = useState(0);
   const stageCount = (stageItems.length + 1) * 2;
-  // const next = () => setState((s) => (s + 1) % stageCount);
-  const [from, size] = [0, 1];
-  const next = () => setState((s) => (s < from + size ? s + 1 : from));
+  const next = () => setState((s) => (s + 1) % stageCount);
+  // const [from, size] = [0, 1];
+  // const next = () => setState((s) => (s < from + size ? s + 1 : from));
 
   const springs = useSprings(
     stageCount,
@@ -31,7 +31,7 @@ export function TranslateAnimation() {
     to: { fraction: stageAt / (stageCount - 1) },
   });
 
-  // useInterval(next, 1000);
+  useInterval(next, 1000);
 
   const extraXLine1 = -20;
   const extraXLine2 = -50;

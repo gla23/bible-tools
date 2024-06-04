@@ -54,7 +54,8 @@ export const explanation = [
     </p>
     <NumberToLetterAnimation>
       <p>
-        This may take some time investment, but it becomes easy with practice ✨
+        Learning this may take some time investment, but it becomes easy with
+        practice ✨
         {/* It may take some time investment to learn this, but becomes easy with practice ✨ */}
       </p>
     </NumberToLetterAnimation>
@@ -86,7 +87,8 @@ export const explanation = [
   <>
     <p>Now for the creative step!</p>
     <p>
-      Link the verse concept with the mnemonic in a way thats memorable for you.
+      Link the verse concept with the mnemonic in a way that's memorable for
+      you.
     </p>
     <div className="flex flex-wrap">
       <div className="basis-48 grow">
@@ -119,12 +121,12 @@ export const explanation = [
     </div>
   </>,
   <>
-    <p>That's it!</p>
-    Have a look at some other examples, look at the FAQs, or play around with
+    <p>That's it!</p>I hope others will enjoy this and find this useful.
+    {/* Have a look at some other examples, look at the FAQs, or play around with
     the mnemonic generator.
     <p>
       Please get in touch if you have any feedback, clarification or ideas!
       GitHub
-    </p>
+    </p> */}
   </>,
 ];
