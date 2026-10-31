@@ -1,6 +1,9 @@
-## bible-tools
 
-### Contents:
+This repo contains various Bible related tools which can be accessed through `bible-tools`.
+
+One example project is the [Bible Mnemonic creator](https://gla23.github.io/bible-tools/).
+
+### `bible-tools` NPM package
 
 - Bible data:
   - Book names
@@ -9,8 +12,6 @@
 - Random verse finder
 - A verse reference and mnemonic parsing tool
 - Type declarations for exports
-
-See the parser in action [here](https://gla23.github.io/bible-tools/).
 
 ### Usage:
 

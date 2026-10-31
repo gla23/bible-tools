@@ -1,5 +1,5 @@
-import { PassageDescription } from "./parsing/state";
-import { parse, Passage } from "./passage/passage";
+import { PassageDescription } from "../parsing/state";
+import { parse, Passage } from "./passage";
 
 const tests: { [index: string]: string } = {
   "  abc": "Matthew 2:3",

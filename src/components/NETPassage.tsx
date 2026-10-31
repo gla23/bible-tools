@@ -1,13 +1,17 @@
 import React from "react";
 import { useFetch } from "../functions/useFetch";
 
-export function NETPassage(props: { reference: string | null }) {
+export function NETPassage(props: {
+  reference: string | null;
+  className?: string;
+}) {
   const { reference } = props;
   const url = reference ? urlOf(reference) : "";
   const [response] = useFetch<Verse[]>(url);
+  if (!response) return null;
   return (
-    <>
-      {response?.map((passage, index, verses) => (
+    <div className={props.className}>
+      {response.map((passage, index, verses) => (
         <p key={passage.verse + passage.chapter + index} className="hint">
           {passage.text
             .slice(0, passage.text.indexOf("<a style="))
@@ -19,8 +23,7 @@ export function NETPassage(props: { reference: string | null }) {
           )}
         </p>
       ))}
-      {response && <br />}
-    </>
+    </div>
   );
 }
 const urlOf = (ref: string) =>

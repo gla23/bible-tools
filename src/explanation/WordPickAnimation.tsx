@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import { filterWords } from "../data/words";
 import { useInterval } from "../utils/useInterval";
-
-const words = filterWords({ startsWith: "des", oddity: 0 }).sort(
-  (a, b) => Math.random() - 0.5
-);
+import { useWords } from "../functions/useWords";
 
 export function WordPickAnimation() {
+  const loaded = useWords(0);
+  const words = useMemo(
+    () =>
+      loaded
+        ? filterWords({ startsWith: "des", oddity: 0 }).sort(
+            (a, b) => Math.random() - 0.5
+          )
+        : [],
+    [loaded]
+  );
   const [count, setCount] = useState(0);
   const next = () => setCount(count + 1);
-  const wordIndex = count % words.length;
+  const wordIndex = words.length ? count % words.length : 0;
 
   const spring = useSpring({
     to: { wordIndex },
@@ -19,9 +26,9 @@ export function WordPickAnimation() {
   useInterval(next, 900);
 
   return (
-    <div className="my-8 ml-4">
+    <div className="my-[2.5em] ml-4 sm:my-[3.5em]">
       d e s{" "}
-      {[-2, -1, 0, 1, 2].map((offset) => {
+      {words.length > 0 && [-2, -1, 0, 1, 2].map((offset) => {
         const wordIndexMap = (wordIndex + offset + words.length) % words.length;
         const word = words[wordIndexMap];
         // Deal with the mod boundary
@@ -48,7 +55,7 @@ export function WordPickAnimation() {
               y: spring.wordIndex.to((n) => {
                 const fraction =
                   wordIndex === 0 ? -n / (words.length - 1) : n - Math.ceil(n);
-                return (offset - fraction) * 25;
+                return `${(offset - fraction) * 1.5}em`;
               }),
             }}
           >

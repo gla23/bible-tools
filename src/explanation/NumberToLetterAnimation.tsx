@@ -36,7 +36,7 @@ export function NumberToLetterAnimation(props: { children: Renderable }) {
   });
   return (
     <div>
-      <div className={`flex w-40 m-auto text-3xl my-8`}>
+      <div className="flex w-40 m-auto text-3xl my-[1.5em]">
         <animated.div className="flex-grow w-4 text-center" style={shakeSpring}>
           {reversed ? String.fromCodePoint(64 + number) : number}
         </animated.div>
@@ -51,7 +51,7 @@ export function NumberToLetterAnimation(props: { children: Renderable }) {
                   opacity: letterSpring.number.to(
                     (n) => 1 - Math.abs((n - index - 1) * 0.85)
                   ),
-                  y: letterSpring.number.to((n) => (n - index - 1) * -35),
+                  y: letterSpring.number.to((n) => `${(n - index - 1) * -1.2}em`),
                 }}
               >
                 {reversed ? i : String.fromCodePoint(64 + i)}
@@ -68,7 +68,7 @@ export function NumberToLetterAnimation(props: { children: Renderable }) {
           checked={reversed}
           onChange={(e) => setReversed(e.target.checked)}
         />{" "}
-        <label htmlFor="reverse">Try the reverse</label>
+        <label htmlFor="reverse">Practice the reverse</label>
       </p>
     </div>
   );

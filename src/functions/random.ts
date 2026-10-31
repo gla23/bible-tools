@@ -1,14 +1,16 @@
-import { randomWord, wordExists } from "../data/words";
+import { loadWords, randomWord, wordExists } from "../data/words";
 import { Passage } from "../passage/passage";
 
-export function randomWordPassage(oddity: number) {
+export async function randomWordPassage(oddity: number) {
+  await loadWords(oddity);
   while (true) {
     const word = randomWord(oddity);
     const passage = new Passage(word);
     if (!passage.error) return passage;
   }
 }
-export function randomPassageReference(oddity: number): string {
+export async function randomPassageReference(oddity: number) {
+  await loadWords(oddity);
   let count = 0;
   while (true) {
     count++;
