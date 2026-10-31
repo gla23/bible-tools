@@ -2,7 +2,7 @@ import React from "react";
 
 export const Link = React.forwardRef<
   HTMLAnchorElement,
-  { url: string; children?: JSX.Element | string; className?: string }
+  { url: string; children?: React.JSX.Element | string; className?: string }
 >((props, ref) => (
   <a
     className={"hint " + props.className}
