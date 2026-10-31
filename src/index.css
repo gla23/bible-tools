@@ -45,6 +45,22 @@
 }
 
 @layer components {
+  /* Thumbs of a RangeSlider: the inputs themselves let the pointer through */
+  .range-thumb {
+    @apply pointer-events-none absolute inset-0 m-0 h-full w-full appearance-none bg-transparent;
+  }
+  .range-thumb::-webkit-slider-thumb {
+    @apply pointer-events-auto h-4 w-4 cursor-pointer appearance-none rounded-full border-0 bg-accent;
+  }
+  .range-thumb::-moz-range-thumb {
+    @apply pointer-events-auto h-4 w-4 cursor-pointer rounded-full border-0 bg-accent;
+  }
+  .range-thumb::-moz-range-track {
+    @apply bg-transparent;
+  }
+}
+
+@layer components {
   .hint {
     font-size: small;
   }

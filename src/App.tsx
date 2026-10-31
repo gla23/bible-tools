@@ -127,6 +127,9 @@ function App() {
         <button className={button} onClick={randomVerse}>
           Random verse
         </button>
+        <a className={button + " ml-auto"} href="?practice">
+          Practise
+        </a>
       </div>
 
       {input && (
